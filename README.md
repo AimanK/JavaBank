@@ -24,5 +24,5 @@ A simple Java application that simulates basic banking operations using object-o
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/JavaBank.git
+   git clone https://github.com/AimanK/JavaBank.git
    cd JavaBank
