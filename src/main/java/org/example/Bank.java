@@ -21,6 +21,19 @@ public class Bank {
         bankAccountsList.remove(bankAccount);
     }
 
+    public BankAccount getBankAccount(String accountNumber)
+    {
+        for (int i = 0; i < bankAccountsList.size(); i++)
+        {
+            if (bankAccountsList.get(i).getAccountNumber().equals(accountNumber))
+            {
+                return bankAccountsList.get(i);
+            }
+        }
+
+        return null;
+    }
+
     public double totalBankBalance()
     {
         double current = 0;
@@ -33,44 +46,31 @@ public class Bank {
         return current;
     }
 
-    public double largestBalance()
+    public BankAccount largestBalance()
     {
         if (bankAccountsList.isEmpty()) {
             System.out.println("ERROR: NO BANK ACCOUNTS");
-            return Double.NaN; // Indicate an invalid result
+            return null; // Indicate an invalid result
         }
 
-        double current = Double.NEGATIVE_INFINITY;
+        BankAccount largestAcct = bankAccountsList.get(0);
 
             for (BankAccount acct : bankAccountsList)
             {
-                if (acct.getBalance() > current)
+                if (acct.getBalance() > largestAcct.getBalance())
                 {
-                    current = acct.getBalance();
+                    largestAcct = acct;
                 }
             }
 
-        return current;
+        return largestAcct;
 
     }
 
-    public BankAccount getBankAccount(long accountNumber, int pin)
+
+    public double deposit(String accountNumber, double amount)
     {
-        for (BankAccount acct : bankAccountsList)
-        {
-            if (acct.getAccountNumber() == accountNumber && acct.getPin() == pin)
-            {
-                return acct;
-            }
-        }
-
-        return null; // if account not found
-    }
-
-
-    public double deposit(long accountNumber, int pin, double amount)
-    {
-        BankAccount acct = getBankAccount(accountNumber, pin);
+        BankAccount acct = getBankAccount(accountNumber);
 
         if (acct != null)
         {
@@ -88,9 +88,9 @@ public class Bank {
         return -1;
     }
 
-    public double withdraw(long accountNumber, int pin, double amount)
+    public double withdraw(String accountNumber, double amount)
     {
-        BankAccount acct = getBankAccount(accountNumber, pin);
+        BankAccount acct = getBankAccount(accountNumber);
 
         if (acct != null)
         {
@@ -112,6 +112,21 @@ public class Bank {
 
         System.out.println("ERROR: ACCOUNT NOT FOUND");
         return -1;
+    }
+
+    public ArrayList<BankAccount> returnAccountsWithMinBalance(double min)
+    {
+        ArrayList<BankAccount> list = new ArrayList<>();
+
+        for (int i = 0; i < bankAccountsList.size(); i++)
+        {
+            if (bankAccountsList.get(i).getBalance() >= min)
+            {
+                list.add(bankAccountsList.get(i));
+            }
+        }
+
+        return list;
     }
 
 }
